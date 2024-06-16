@@ -35,9 +35,13 @@ function handlerSelect(event) {
    loaderMessage.classList.remove("loader-hidden");
    errorMessage.classList.add("error-hidden")
    fetchCatByBreed(breedId).then((data) => {
+      if (data.length === 0) {
+         loaderMessage.classList.add("loader-hidden");
+         div.innerHTML = "<p class = no-info>Unfortunately, we have no information about this cat.</p>";
+         return;
+      }
       loaderMessage.classList.add("loader-hidden");
-      div.innerHTML = createMarkup(data, breedId);
-      
+      div.innerHTML = createMarkup(data);
    }).catch(() => {
       div.classList.add("info-hidden");
       loaderMessage.classList.add("loader-hidden");
@@ -45,16 +49,23 @@ function handlerSelect(event) {
 });
 };
 
-function createMarkup(arr, breedId) {
-   const currentBreed = storedBreeds.find(breed => breed.id === breedId);
-   let breedImg = {};
+function createMarkup(arr) {
+   let breedImg;
+   let breedName;
+   let breedDescription;
+   let breedTemperament;
    for (const data of arr) {
       breedImg = data.url;
+      for (const breed of data.breeds) {
+         breedName = breed.name;
+         breedDescription = breed.description;
+         breedTemperament = breed.temperament;
+      }
    }
-   const markup = `<img src="${breedImg}" alt="${currentBreed.name}">
-      <div><h>${currentBreed.name}</h>
-      <p>${currentBreed.description}</p>
-      <p><span class="temp">Temperament: </span>${currentBreed.temperament}</p></div>`;
+   const markup = `<img src="${breedImg}" alt="${breedName}">
+      <div><h>${breedName}</h>
+      <p>${breedDescription}</p>
+      <p><span class="temp">Temperament: </span>${breedTemperament}</p></div>`;
 
    return markup;
 };

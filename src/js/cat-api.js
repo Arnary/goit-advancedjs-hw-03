@@ -6,7 +6,6 @@ export function fetchBreeds() {
   return fetch(breedsUrl, {headers: {
       'x-api-key': ApiKey,
     }}).then((response) => {
-    console.log(response)
     if (!response.ok) {
         return;
     }
@@ -14,15 +13,16 @@ export function fetchBreeds() {
   });
 };
 
-const ImgUrl = "https://api.thecatapi.com/v1/images/search";
+const FullInfoUrl = "https://api.thecatapi.com/v1/images/search";
 
 export function fetchCatByBreed(breedId) {
-    return fetch(`${ImgUrl}?breed_ids=${breedId}`, {headers: {
+    return fetch(`${FullInfoUrl}?breed_ids=${breedId}`, {headers: {
       'x-api-key': ApiKey,
-    }}).then((response) => {
+    }
+    }).then((response) => {
         if (!response.ok) {
             return;
-        }
+      }
         return response.json();
     });
 };

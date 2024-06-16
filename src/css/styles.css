@@ -48,3 +48,7 @@ h {
 .info-hidden {
   display: none;
 }
+
+.no-info {
+  color: red;
+}
